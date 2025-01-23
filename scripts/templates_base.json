@@ -1,0 +1,77 @@
+{
+    "#comment": "These are zombie templates to be copied",
+    "zombies": [
+        {
+            "#comment": "The '*' in each name will be replaced by a number",
+            "#comment2": "So magician_template_1 will be made, along with, magician_template_2, etc",
+            "#comment3": "The script will ask for number of templates to be made, each template will be made that amount of times",
+            "#comment4": "Please note that only aliases, typename, and properties will be accounted for",
+            "#comment5": "Feel free to run the script with this file to see how it will be made",
+            "objclass": "ZombieType",
+            "aliases": [
+                "magician_template_*"
+            ],
+            "objdata": {
+                "TypeName": "magician_template_*",
+                "ZombieClass": "ZombieCarnieMagician",
+                "Properties": "RTID(MagicianTemplate*Props@CurrentLevel)",
+                "ResourceGroups": [
+                    "ZombieCarnieDoveGroup",
+                    "ZombieMagicianBalloonGroup",
+                    "ZombieWestChickenGroup",
+                    "ZombieBirthdayMagicianGroup",
+                    "ZombieZmechTeleportGroup"
+                ],
+                "AudioGroups": [
+                    "ZombieCarnieMagicianAudio",
+                    "ZombieModernBalloonAudio"
+                ],
+                "AnimRigClass": "ZombieAnimRig_Tutorial",
+                "PopAnim": "POPANIM_ZOMBIE_ZOMBIE_BIRTHDAY_MAGICIAN",
+                "HomeWorld": "tutorial",
+                "AlmanacBackdropName": "birthday",
+                "Placeable": true
+            }
+        },
+        {
+            "objclass": "ZombieType",
+            "aliases": [
+                "caesar_template_*"
+            ],
+            "objdata": {
+                "TypeName": "caesar_template_*",
+                "ZombieClass": "ZombieGeneralCaesar",
+                "Properties": "RTID(CaesarTemplate*Props@CurrentLevel)",
+                "ResourceGroups": [
+                    "ZombieCaesarSaladGroup",
+                    "ZombieCaesarGroup",
+                    "ZombieDarkKingKnightEffect"
+                ],
+                "AudioGroups": [
+                    "ZombieRomanCaesarAudio"
+                ],
+                "AnimRigClass": "ZombieAnimRig_GeneralCaesar",
+                "PopAnim": "POPANIM_ZOMBIE_ZOMBIE_ROMAN_GENERAL_CAESAR",
+                "HomeWorld": "rift1a",
+                "Placeable": true
+            }
+        }
+    ],
+    "#comment2": "These are GI templates to be copied, same rules apply here",
+    "griditems": [
+        {
+            "objclass": "GridItemType",
+            "aliases": [
+                "entitytarget_template_*"
+            ],
+            "objdata": {
+                "TypeName": "entitytarget_template_*",
+                "GridItemClass": "GridItemEntityTargeting",
+                "ResourceGroups": [
+                    "Tutorial_Gravestone"
+                ],
+                "Properties": "RTID(EntityTargetTemplate*@CurrentLevel)"
+            }
+        }
+    ]
+}
