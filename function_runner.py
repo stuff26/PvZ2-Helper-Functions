@@ -2,26 +2,26 @@ try:
     import sys
     from colorama import init, Fore
     init()
-    import json
-    import importlib
+    from json import loads
+    from importlib import import_module
     from readchar import readchar
-    import os
-    import time
+    from os import path
+    from time import time, sleep
 except Exception as e:
     print(f"ERROR: {e}")
     input()
 
-is_function_compiler = False
 
 def main():
     # Grab configurations for functions
     with open(open_in_exe("function_config.json"), "r", encoding="utf-8") as file:
-        functions = json.loads(file.read())
+        functions = loads(file.read())
     
     # Introduction
     print(f"{Fore.YELLOW}PvZ2 Helper Functions by stuff26")
     print(f"Version {Fore.GREEN}1.0")
-    print(f"{Fore.YELLOW}Intended for usage with files for Sen 4.0 by Haruma")
+    print(f"{Fore.YELLOW}Intended for usage with files for Sen 4.0 by Haruma\n")
+    sleep(0.25)
     
     available_functions = {}
     function_num = 1
@@ -52,7 +52,7 @@ def main():
         
     if not is_function_compiler: sys.path.append("./scripts")
     # Turn function into object
-    function_module = importlib.import_module(function_name)
+    function_module = import_module(function_name)
     # Grab function
     function_to_call = getattr(function_module, "main")
     print(f"{Fore.LIGHTBLUE_EX}Executing {Fore.GREEN}{function_name}{Fore.LIGHTBLUE_EX}...")
@@ -62,9 +62,9 @@ def main():
     # Call function
     while True:
         try:
-            pre_time = time.time()
+            pre_time = time()
             function_to_call()
-            function_time = time.time() - pre_time
+            function_time = time() - pre_time
             break
         except Exception as e:
             print(f"{Fore.LIGHTMAGENTA_EX}ERROR: {e}")
@@ -89,13 +89,15 @@ def main():
     
     
 def open_in_exe(relative_path):
+    global is_function_compiler
+    is_function_compiler = True
     #Get the absolute path to the resource, whether running as a script or as a bundled executable.
     if hasattr(sys, '_MEIPASS'):  # Running as a PyInstaller bundle
         base_path = sys._MEIPASS
     else:  # Running as a script
-        base_path = os.path.abspath(".")
+        base_path = path.abspath(".")
         is_function_compiler = False
-    return os.path.join(base_path, relative_path)
+    return path.join(base_path, relative_path)
     
 def display_option(option_details, function_num):
     name = option_details["name"]

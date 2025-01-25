@@ -24,7 +24,7 @@
             "function_name": "sen_rsg_to_scg"
         }
     ],
-    "JSON": [
+    "JSON / PACKAGES": [
         {
             "name": "Update All Coordinates in Worldmap JSON",
             "details": "Change the coordinates of all map pieces by a certain value",
