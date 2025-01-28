@@ -4,6 +4,7 @@ import json
 from colorama import Fore, init
 from readchar import readchar
 import universal_functions as uf
+from re import sub, IGNORECASE
 init()
 
 should_give_safe_error = True
@@ -15,11 +16,12 @@ def main():
     
     file_list = os.listdir(os.path.join(filepath, "library/media"))
     for file in file_list.copy():
-        if not file.endswith(".png") and not uf.if_is_image_file(os.path.join(filepath, "library/media", file)):
+        if not file.lower().endswith(".png") and not uf.if_is_image_file(os.path.join(filepath, "library/media", file)):
             file_list.remove(file)
             continue
         index = file_list.index(file)
-        file_list[index] = file.replace(".png", "") # Remove .png ending
+        # Use regex to remove .png ending
+        file_list[index] = sub(r"\.png$", file, flags=IGNORECASE) # Remove .png ending
 
     # Get contents of data.json
     datajson = uf.obtain_json_file_contents(os.path.join(filepath, "data.json"), silent=True)
@@ -48,9 +50,9 @@ def main():
             "id": image_id,
             "dimension": {
                 "width": width,
-                "height": height
+                "height": height,
             },
-            "additional": None
+            "additional": None,
         }
         # Add to datajson + give message
         datajson["image"][file] = image_info
