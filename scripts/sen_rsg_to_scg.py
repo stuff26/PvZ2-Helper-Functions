@@ -243,6 +243,8 @@ def make_spritesheet_json(resources_1536):
             height_amount = res.get("ah", 0)
             x_offset = res.get("x", 0)
             y_offset = res.get("y", 0)
+            cols_offset = res.get("cols", 1)
+            rows_offset = res.get("rows", 1)
             
             # Get path
             path_name = ""
@@ -260,9 +262,13 @@ def make_spritesheet_json(resources_1536):
                             "aw": width_amount,
                             "ah": height_amount,
                             "x": x_offset,
-                            "y": y_offset
+                            "y": y_offset,
                         }
                     }
+            if cols_offset != 1:
+                toadd_image_sprite["default"]["cols"] = cols_offset
+            if rows_offset != 1:
+                toadd_image_sprite["default"]["rows"] = rows_offset
             spritesheet_json[spritesheet_id.replace("1536_", "")]["data"][sprite_id] = toadd_image_sprite
         
     # Set up proper full dictionary then return it

@@ -17,7 +17,7 @@ def main():
     
     # Check if file ends with .scg, then add to data
     for file_name in file_list:
-        if file_name.endswith(".scg"):
+        if file_name.lower().endswith(".scg"):
             data["packet"].append(file_name[:-4]) # Remove file ending
 
     # Open data.json to overwrite it
