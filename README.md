@@ -22,8 +22,27 @@ The function will turn a template base file and make several copies of the templ
 ### Level Error Checker
 The function will take in a level and the packages folder of an obb. From there it will cross check each part of a level to find any missing modules or other potential errors in a level and spit out a message of what is found.
 
+### Check For Errors
+The function checks for a few potential errors that can cause issues with XFLs that prevent them from packing or can cause them to glitch out. Some errors scanned for include:
+- If any layers have more than one type of symbol
+- If there are any tweens
+- If there are frames with more than one sprite attached
+- If there are any layers with keyframes with gaps of empty keyframes between ones with symbols attached
+- If there are any bitmaps in sprite/label/main symbols or other symbols in image symbols
+
+### Split Multi Sprite Layers
+The function splits layers that use multiple different symbols, which can prevent XFLs from packing
+
+### Rename Layers
+The function renames layers either by number (ascending or descending) or by the symbol they use, useful for those who prefer to be more organized
+
 
 ## Conclusion
 Feel free to reach out to stuff26 on discord if you have suggestions or issues. Some currently planned functions that will be added include:
-- Zombie file organizer
+
 - Redo SCG data.json (may or may not be possible though)
+- Add labels to DOMDocument automatically
+- Find objects found in save files
+- pp.dat cleaner name adder
+- Consistent image/bitmap namer
+- Snowie Lib action frame maker (?)
