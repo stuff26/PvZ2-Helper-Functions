@@ -6,7 +6,7 @@ import universal_functions as uf
 init()
 
 should_give_safe_error = False
-CHECKING_FILES = ("LEVELMODULES.json", "PLANTTYPES.json", "GRIDITEMTYPES.json", "ZOMBIETYPES.json", "CREATURETYPES.json")
+CHECKING_FILES = ("LEVELMODULES.json", "PLANTTYPES.json", "GRIDITEMTYPES.json", "ZOMBIETYPES.json", "CREATURETYPES.JSON")
 
 def main():
     # Get level JSON file

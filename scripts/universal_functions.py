@@ -3,22 +3,35 @@ from colorama import init, Fore
 import sys
 import os
 from PIL import Image
+import re
+import xmltodict
 init()
 
-# Remove illegal chars from a directory to prevent potential errors
+# Remove illegal characters from a directory to prevent potential errors
+# - directory == given directory to clean out and return
+# Returns: directory with illegal characters removed
 def clean_directory(directory):
     platform = sys.platform
-    if platform == "win32": illegal_chars = ["*", "?", "\"", "<", ">", "|"]
-    elif platform == "linux": illegal_chars = ["/"]
-    elif platform == "darwin": illegal_chars = ["/", ":"]
+    if platform == "win32": illegal_chars = {"*", "?", "\"", "<", ">", "|"}
+    elif platform == "linux": illegal_chars = {"/"}
+    elif platform == "darwin": illegal_chars = {"/", ":"}
     
     for char in illegal_chars: directory = directory.replace(char, "")
     return directory
 
-# Ask for directory from user
-# is_file == determines if the function should check if directory is a file or folder, default is a folder
-# look_for_files == is a list type, checks to make sure folder directory has files and throws error if it doesn't
-def ask_for_directory(is_file=False, look_for_files=None):
+# Remove ANSI code from given, primarily for if text needs to be written to a file
+# - text == text to be stripped of ANSI codes
+# Returns: text without ANSI codes
+def strip_ansi_codes(text):
+    ansi_escape = re.compile(r'\x1B\[[0-9;]*[mGK]')
+    return ansi_escape.sub('', text)
+
+# Ask for directory from user safely
+# - is_file == determines if the function should check if directory is a file or folder, default is a folder
+# - look_for_files == is a list type, checks to make sure folder directory has files and throws error if it doesn't
+# - accept_any == ignores is_file, causes function to not not check if directory is specifically a file or folder
+# Returns: directory given inputted by user
+def ask_for_directory(is_file=False, look_for_files=None, accept_any=False):
     while True:
         # Ask for directory
         directory = better_user_input(ask_directory=True)
@@ -28,16 +41,17 @@ def ask_for_directory(is_file=False, look_for_files=None):
             print(f"{Fore.LIGHTMAGENTA_EX}ERROR: Directory does not exist")
             continue
         
-        # If is_file is set to False, check if directory is a folder
-        elif not os.path.isdir(directory) and not is_file:
-            print(f"{Fore.LIGHTMAGENTA_EX}ERROR: Directory is not a folder")
-            
-        # If is_file is set to True, check if directory is a file
-        elif not os.path.isfile(directory) and is_file:
-            print(f"{Fore.LIGHTMAGENTA_EX}ERROR: Directory is not a file")
+        if not accept_any:
+            # If is_file is set to False, check if directory is a folder
+            if not os.path.isdir(directory) and not is_file:
+                print(f"{Fore.LIGHTMAGENTA_EX}ERROR: Directory is not a folder")
+                
+            # If is_file is set to True, check if directory is a file
+            elif not os.path.isfile(directory) and is_file:
+                print(f"{Fore.LIGHTMAGENTA_EX}ERROR: Directory is not a file")
             
         # If look_for_files is given, check if all files in directory exist
-        elif look_for_files != None and not is_file:
+        if look_for_files != None and os.path.isdir(directory):
             file_list = os.listdir(directory)
             
             should_repeat = False
@@ -52,9 +66,10 @@ def ask_for_directory(is_file=False, look_for_files=None):
         return directory
 
 # Ask for JSON file to be read
-# default_directory == directory to be input automatically if user enters nothing
-# return_directroy == returns a tuple with json and directory together if set to True, otherwise only returns json
-# silent == sent no message if error occurs if set to True
+# - default_directory == if user inputs nothing, set inputted directory to this to this
+# - return_directroy == returns a tuple with JSON contents and directory together if set to True, otherwise only returns JSON contents
+# - silent == sent no message if error occurs if set to True
+# Returns: contents of a JSON file in the form of a dictionary
 def get_json_file_contents(default_directory=0, return_directory=False, silent=False):
     while True:
         # Ask for directory
@@ -76,8 +91,9 @@ def get_json_file_contents(default_directory=0, return_directory=False, silent=F
             return jsonfile_contents
 
 # Return JSON file contents safely
-# directory == file directory to be read
-# silent == sent no message if error occurs
+# - directory == file directory to be read
+# - silent == send no message if error occurs if set to True, otherwise print out errors in console
+# Returns: JSON file contents in the form of a dictionary, note keys that start with "@" are not nested dictionaries
 def obtain_json_file_contents(directory="file.json", silent=False):
         try:
             # Attempt to open file and if successful, return the contents
@@ -94,8 +110,24 @@ def obtain_json_file_contents(directory="file.json", silent=False):
             if not silent: print(f"{Fore.LIGHTMAGENTA_EX}ERROR: {e}")
         return None
 
+# Returns contents of an XML file
+# - directory == given directory to be taken from
+# - silent == send no message if error occurs if set to True, otherwise print out errors in console
+# Returns: XML file contents in the form of a dictionary
+def open_xml_file(directory, silent=False):
+    try:
+        with open(directory, "r") as file:
+            return xmltodict.parse(file.read())
+    except FileNotFoundError:
+        if not silent: print(f"{Fore.LIGHTMAGENTA_EX}ERROR: could not find {directory}")
+    except Exception as e:
+        if not silent: print(f"{Fore.LIGHTMAGENTA_EX}ERROR: {e}")
+        
+    return None
+
 # Provides better input with color for user and has built in directory cleaning
-# ask_directory == clean out illegal characters for directories if set to true
+# - ask_directory == clean out illegal characters for directories if set to True if a directory is expected
+# Returns: String that user inputs
 def better_user_input(ask_directory=False):
     if not ask_directory:
         return input(f"{Fore.RED}>>> {Fore.YELLOW}")
@@ -104,8 +136,10 @@ def better_user_input(ask_directory=False):
 
 
 # Return proper directory to open file inside of exe
+# - relative_path == directory to open
+# - is_main == determines if being run as pyinstaller bundle or not
+# Returns: path to desired directory
 def open_in_exe(relative_path="directory", is_main=None):
-    #Get the absolute path to the resource, whether running as a script or as a bundled executable.
     if hasattr(sys, '_MEIPASS'):  # Running as a PyInstaller bundle
         base_path = sys._MEIPASS
     elif not is_main:
@@ -115,25 +149,37 @@ def open_in_exe(relative_path="directory", is_main=None):
     return os.path.join(base_path, relative_path)
 
 # Write to a file
-# is_json == writes to file like a json
-def write_to_file(towrite, directory, is_json=False, parent_dir=False):
+# - is_json == writes to file like a JSON
+# - is_xml == writes to file like an XML
+# - parent_dir == write to parent directory
+# Returns: True or False depending on if the execution is completed without errors
+def write_to_file(towrite, directory, is_json=False, is_xml=False, parent_dir=False):
     if parent_dir:
-        directory = os.path.join(os.path.normpath(parent_dir + os.sep + os.pardir), directory)
+        directory = os.path.join(back_a_directory(parent_dir), directory)
         
-        
-    with open(directory, "w", encoding="utf-8") as file:
-        if is_json:
-            json.dump(towrite, file, indent=5)
-        else:
-            file.write(str(towrite))
-        return True
-    
+    try:
+        with open(directory, "w", encoding="utf-8") as file:
+            if is_json:
+                json.dump(towrite, file, indent=5)
+            elif is_xml:
+                xmltodict.unparse(towrite, output=file, encoding='utf-8', pretty=True)
+            else:
+                file.write(str(towrite))
+            return True
+    except Exception as e:
+        print(f"{Fore.LIGHTMAGENTA_EX}ERROR: {e}")
+        return False
+
+# Goes back a directory
+# - directory == directory to go back on
+# Returns: parent directory of given directory
 def back_a_directory(directory):
     return os.path.normpath(directory + os.sep + os.pardir)
 
 # Separate name and tag of properties line
-# return_type == determines what should be returned
-# if "name", return name, if "tag, return tag, otherwise return tuple of name and tag
+# - user_input == props line to split
+# - return_type == determines what should be returned, is either "name", "tag", or "both"
+# Returns: either name, tag, or both parts of a property line
 def get_name_and_tag(user_input, return_type="both"):
     name, tag = user_input.replace("RTID(", "").replace(")", "").replace("$", "").split("@")
     
@@ -142,11 +188,23 @@ def get_name_and_tag(user_input, return_type="both"):
     if return_type == "tag": return tag
     else: return (name, tag)
 
-# Checks if file is an image or not
+# Checks if file is an image or not to ensure no errors are found when checking file
+# - directory == directory to check if it is a file or not
+# Returns: True if the file is found to be an image file, otherwise False
 def if_is_image_file(directory):
     try:
         with Image.open(directory) as img:
             img.verify()
             return True
-    except (IOError, SyntaxError):
+    except (IOError, SyntaxError, FileNotFoundError):
         return False
+
+def fix_layer_or_frame_list(input_list, to_layer=False):
+    if isinstance(input_list, list):
+        if len(input_list) == 1 and not to_layer:
+            return input_list[0]
+    
+    elif isinstance(input_list, dict) and to_layer:
+        return [input_list]
+    
+    return input_list
