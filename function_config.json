@@ -1,59 +1,80 @@
 {
-    "Pam / XFL": [
-        {
-            "name": "Redo XFL data.json",
-            "details": "Remake XFL data.json with all images found in media, with consistent ID and updated image dimensions",
-            "input": "XFL media",
-            "output": "Data.JSON with XFL media",
-            "function_name": "remake_xfl_datajson"
-        }
-    ],
-    "OBB / SCG": [
-        {
-            "name": "Redo OBB data.json",
-            "details": "Find all SCGs in OBB and add them to data.json",
-            "input": "OBB SCGs",
-            "output": "Data.JSON with SCG groups",
-            "function_name": "remake_obb_datajson"
-        },
-        {
-            "name": "Convert Sen 3.0 Resource Group to 4.0 SCG",
-            "details": "Take data from a Sen 3.0 OBB and make a 4.0 SCG with available data",
-            "input": "3.0 resources, spritesheet, other files part of resource group",
-            "output": "4.0 SCG",
-            "function_name": "sen_rsg_to_scg"
-        }
-    ],
-    "JSON / PACKAGES": [
-        {
-            "name": "Update All Coordinates in Worldmap JSON",
-            "details": "Change the coordinates of all map pieces by a certain value",
-            "input": "Worldmap JSON",
-            "output": "Worldmap with changed map piece coordinates",
-            "function_name": "update_worldmap_coordinates"
-        },
-        {
-            "name": "Organize Plant Files",
-            "details": "Organize plant types, props, levels, and almanac data in a consistent order according to property sheets",
-            "input": "Plant related JSONs",
-            "output": "Organized plant JSONs",
-            "function_name": "organize_plantjsons"
-        },
-        {
-            "name": "Make Zombie and GI Templates",
-            "details": "Make several copies of multiple level maker (or @CurrentLevel) zombie and GI templates",
-            "input": "Templates base JSON",
-            "output": "Template copies",
-            "function_name": "template_copier"
-        }
-    ],
-    "MISC": [
-        {
-            "name": "Level Error Checker",
-            "details": "Compare a level to OBB files to check for potential errors",
-            "input": "Level JSON",
-            "output": "Message with found errors",
-            "function_name": "check_level_errors"
-        }
-    ]
+    "version": 1.1,
+    "functions": {
+        "Pam / XFL": [
+            {
+                "name": "Redo XFL data.json",
+                "details": "Remake XFL data.json with all images found in media, with consistent ID and updated image dimensions",
+                "input": "XFL media",
+                "output": "data.json with XFL media",
+                "function_name": "remake_xfl_datajson"
+            },            {
+                "name": "Check For Errors in XFL",
+                "details": "Checks for a few potential issues in XFLs that may prevent converting it to a PAM",
+                "input": "XFL or individual symbol",
+                "output": "Error message with found errors",
+                "function_name": "check_xfl_errors"
+            },            {
+                "name": "Rename Symbol Layers",
+                "details": "Renames all layers in a symbol with a consistent naming scheme",
+                "input": "XFL or individual symbol",
+                "output": "Symbol(s) with renamed layers",
+                "function_name": "rename_anim_layers"
+            },            {
+                "name": "Split Multi Sprite Layers",
+                "details": "Splits up layers that use multiple different sprites",
+                "input": "XFL or individual symbol",
+                "output": "Symbol(s) with splitted layers",
+                "function_name": "split_multi_sprite_layers"
+            }
+        ],
+        "OBB / SCG": [
+            {
+                "name": "Redo OBB data.json",
+                "details": "Find all SCGs in OBB and add them to data.json",
+                "input": "OBB SCGs",
+                "output": "data.json with SCG groups",
+                "function_name": "remake_obb_datajson"
+            },
+            {
+                "name": "Convert Sen 3.0 Resource Group to 4.0 SCG",
+                "details": "Take data from a Sen 3.0 OBB and make a 4.0 SCG with available data",
+                "input": "3.0 resources, spritesheet, other files part of a resource group",
+                "output": "4.0 SCG",
+                "function_name": "sen_rsg_to_scg"
+            }
+        ],
+        "JSON / PACKAGES": [
+            {
+                "name": "Update All Coordinates in Worldmap JSON",
+                "details": "Change the coordinates of all map pieces by a certain value",
+                "input": "Worldmap JSON",
+                "output": "Worldmap JSON with changed map piece coordinates",
+                "function_name": "update_worldmap_coordinates"
+            },
+            {
+                "name": "Organize Plant Files",
+                "details": "Organize plant types, props, levels, and almanac data in a consistent order according to property sheets",
+                "input": "Plant related JSONs",
+                "output": "Organized plant JSONs",
+                "function_name": "organize_plantjsons"
+            },
+            {
+                "name": "Make Zombie and GI Templates",
+                "details": "Make several copies of multiple level maker (or @CurrentLevel) zombie and GI templates",
+                "input": "Templates base JSON",
+                "output": "Template copies",
+                "function_name": "template_copier"
+            }
+        ],
+        "MISC": [
+            {
+                "name": "Level Error Checker",
+                "details": "Compare a level to OBB files to check for potential errors",
+                "input": "Level JSON",
+                "output": "Message with found errors",
+                "function_name": "check_level_errors"
+            }
+        ]
+    }
 }

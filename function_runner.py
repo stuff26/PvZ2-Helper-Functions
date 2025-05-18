@@ -5,8 +5,8 @@ try:
     from json import loads
     from importlib import import_module
     from readchar import readchar
-    from os import path
-    from time import time, sleep
+    import os
+    from time import time
 except Exception as e:
     print(f"ERROR: {e}")
     input()
@@ -19,16 +19,15 @@ def main():
     
     # Introduction
     print(f"{Fore.YELLOW}PvZ2 Helper Functions by stuff26")
-    print(f"Version {Fore.GREEN}1.0")
+    print(f"Version {Fore.GREEN}{functions['version']}")
     print(f"{Fore.YELLOW}Intended for usage with files for Sen 4.0 by Haruma\n")
-    sleep(0.25)
     
     available_functions = {}
     function_num = 1
     # Print out each available function
-    for function_title in functions:
+    for function_title in functions['functions']:
         new_section(function_title)
-        for function in functions[function_title]:
+        for function in functions['functions'][function_title]:
             available_functions[str(function_num)] = function["function_name"]
             display_option(function, function_num)
             function_num += 1
@@ -60,32 +59,41 @@ def main():
     print()
     
     # Call function
+    
     while True:
         try:
             pre_time = time()
             function_to_call()
             function_time = time() - pre_time
+            
+            display_dashed_line()
+            print(f"\n{Fore.LIGHTMAGENTA_EX}Process completed in {round(function_time, 4)} seconds")
+            print("(press any button to continue)")
+            readchar()
             break
+
         except Exception as e:
             print(f"{Fore.LIGHTMAGENTA_EX}ERROR: {e}")
             display_dashed_line()
             print()
             print(f"{Fore.LIGHTBLUE_EX}Would you like to do retry this function (Y/N)")
+            should_exit = False
             while True:
                 answer = readchar().upper()
                 if answer == "Y":
                     print(f"{Fore.YELLOW}{answer}")
                     display_dashed_line()
                     print()
-                    continue
+                    should_exit = True
+                    break
                 elif answer == "N":
                     break
-    
-    # Exit
-    display_dashed_line()
-    print(f"\n{Fore.LIGHTMAGENTA_EX}Process completed in {round(function_time, 4)} seconds")
-    print("(press any button to continue)")
-    readchar()
+            if should_exit:
+                display_dashed_line()
+                print(f"\n{Fore.LIGHTMAGENTA_EX}Process completed")
+                print("(press any button to continue)")
+                readchar()
+                break
     
     
 def open_in_exe(relative_path):
@@ -95,9 +103,9 @@ def open_in_exe(relative_path):
     if hasattr(sys, '_MEIPASS'):  # Running as a PyInstaller bundle
         base_path = sys._MEIPASS
     else:  # Running as a script
-        base_path = path.abspath(".")
+        base_path = os.path.abspath(".")
         is_function_compiler = False
-    return path.join(base_path, relative_path)
+    return os.path.join(base_path, relative_path)
     
 def display_option(option_details, function_num):
     name = option_details["name"]
@@ -116,7 +124,7 @@ def new_section(name):
     print()
     
 def display_dashed_line():
-    print(f"{Fore.RED}----------------")
+    print(f"{Fore.RED}---------------------")
 
 if __name__ == "__main__":
     try:
