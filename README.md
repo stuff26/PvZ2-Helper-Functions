@@ -36,6 +36,12 @@ The function splits layers that use multiple different symbols, which can preven
 ### Rename Layers
 The function renames layers either by number (ascending or descending) or by the symbol they use, useful for those who prefer to be more organized
 
+### PP.DAT Cleaner
+The function takes in a PP.DAT JSON file and then changes some of the keys to be more easily readable. This doesn't change all of the keys due to me not knowing what they do. The function will also convert the cleaner version back to a game readable one, ensure you do this before converting it back to a PP.DAT
+
+### Offset Sprite Positions
+The function takes in an XFL or individual symbol file then will change all of the sprite positions in the symbol(s) by a certain amount in the x and y direction. This is mainly for animations that don't have any sort of built in offseter in game).
+
 
 ## Conclusion
 Feel free to reach out to stuff26 on discord if you have suggestions or issues. Some currently planned functions that will be added include:
@@ -43,6 +49,5 @@ Feel free to reach out to stuff26 on discord if you have suggestions or issues. 
 - Redo SCG data.json (may or may not be possible though)
 - Add labels to DOMDocument automatically
 - Find objects found in save files
-- pp.dat cleaner name adder
 - Consistent image/bitmap namer
 - Snowie Lib action frame maker (?)
