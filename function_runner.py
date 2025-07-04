@@ -83,10 +83,9 @@ def main():
                 if answer == "Y":
                     print(f"{Fore.YELLOW}{answer}")
                     display_dashed_line()
-                    print()
-                    should_exit = True
                     break
                 elif answer == "N":
+                    should_exit = True
                     break
             if should_exit:
                 display_dashed_line()

@@ -1,5 +1,5 @@
 {
-    "version": 1.1,
+    "version": 1.2,
     "functions": {
         "Pam / XFL": [
             {
@@ -26,6 +26,12 @@
                 "input": "XFL or individual symbol",
                 "output": "Symbol(s) with splitted layers",
                 "function_name": "split_multi_sprite_layers"
+            },            {
+                "name": "Offset Sprite Positions",
+                "details": "Offsets all sprites in label and main symbols by a desired amount",
+                "input": "XFL or individual symbol",
+                "output": "Symbol(s) with offset sprite positions",
+                "function_name": "offset_anim"
             }
         ],
         "OBB / SCG": [
@@ -74,6 +80,13 @@
                 "input": "Level JSON",
                 "output": "Message with found errors",
                 "function_name": "check_level_errors"
+            },
+            {
+                "name": "PP.DAT Cleaner",
+                "details": "Change the keys for some values in pp.dat jsons to be more readable",
+                "input": "PP.dat as a JSON",
+                "output": "PP.dat with modified keys",
+                "function_name": "clean_ppdat_names"
             }
         ]
     }
