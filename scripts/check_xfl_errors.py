@@ -1,12 +1,8 @@
 import os
-import json
 from colorama import init, Fore
 init()
 import universal_functions as uf
 import itertools
-import xmltodict
-import re
-from readchar import readchar
 from copy import deepcopy
 
 
@@ -17,7 +13,7 @@ should_give_safe_error = False
 FULL_ERROR_MESSAGE = ""
 def main():
     print(f"{Fore.LIGHTBLUE_EX}Enter the {Fore.GREEN}XFL {Fore.LIGHTBLUE_EX}or individual symbol you want to scan")
-    user_input_path = uf.ask_for_directory(accept_any=True, look_for_files=("DOMDocument.xml",))
+    user_input_path = uf.ask_for_directory(accept_any=True, look_for_files=("DOMDocument.xml",), is_case_sensitive=False)
     print(f"{Fore.LIGHTBLUE_EX}Processing...\n")
     
     # If individual symbol is given
@@ -87,7 +83,7 @@ def check_symbol(layer_list, symbol, is_file=False):
                     layer["frames"]["DOMFrame"] = [layer["frames"]["DOMFrame"]]
                 if layer.get("@layerType", False) == "folder": # Ignore folders
                     continue
-            except TypeError: # Fail safe
+            except (TypeError, AttributeError): # Fail safe
                 continue
             layer_name = layer.get("@name", "unknown")
             
@@ -124,7 +120,7 @@ def get_error_message(total_errors, layer_name):
         add_message(temp_message)
         
     else:
-        if total_errors["multiple_image_layers"] != None:
+        if total_errors["multiple_image_layers"] not in ({}, None):
             temp_message = f"\t\t{Fore.LIGHTBLUE_EX}Found multiple different symbols used\n\t\tIntended image symbol: {Fore.GREEN}{total_errors['multiple_image_layers']['intended_image_name']}"
             for error in total_errors["multiple_image_layers"]["found_errors"]:
                 temp_message += f"\n\t\t\t{Fore.LIGHTBLUE_EX}Found {Fore.GREEN}{error} {Fore.LIGHTBLUE_EX}on range of frames: {Fore.YELLOW}{total_errors['multiple_image_layers']['found_errors'][error]}"

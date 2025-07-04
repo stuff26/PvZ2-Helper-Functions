@@ -1,0 +1,235 @@
+{
+    "LevelDefinition": {
+        "StageModule": {
+            "reference": "modules",
+            "is_at_sign": true
+        },
+        "Modules": {
+            "reference": "modules",
+            "is_at_sign": true,
+            "is_list": true
+        },
+        "VictoryModule": {
+            "reference": "modules",
+            "is_at_sign": true
+        },
+        "LossModule": {
+            "reference": "modules",
+            "is_at_sign": true
+        }
+    },
+    "SeedBankProperties": {
+        "PresetPlantList": {
+            "reference": "plant_types",
+            "is_list": true
+        },
+        "PlantIncludeList": {
+            "reference": "plant_types",
+            "is_list": true
+        },
+        "PlantExcludeList": {
+            "reference": "plant_types",
+            "is_list": true
+        }
+    },
+    "InitialGridItemProperties": {
+        "InitialGridItemPlacements": {
+            "reference": "grid_types",
+            "is_list": true,
+            "param_to_check": "TypeName"
+        }
+    },
+    "InitialPlantProperties": {
+        "InitialPlantPlacements": {
+            "reference": "plant_types",
+            "is_list": true,
+            "param_to_check": "TypeName"
+        }
+    },
+    "GravestoneProperties": {
+        "GravestoneTypeName": {
+            "reference": "grid_types"
+        },
+        "ForceSpawnData": {
+            "reference": "grid_types",
+            "is_list": true,
+            "param_to_check": "TypeName"
+        }
+    },
+    "LevelEscalationModuleProperties": {
+        "ZombiePool": {
+            "reference": "zombie_aliases",
+            "is_list": true,
+            "is_at_sign": true
+        },
+        "WaveManagerProps": {
+            "reference": "modules",
+            "is_at_sign": true
+        }
+    },
+    "SpawnZombiesJitteredWaveActionProps": {
+        "Zombies": {
+            "reference": "zombie_aliases",
+            "is_list": true,
+            "is_at_sign": true,
+            "param_to_check": "Type"
+        }
+    },
+    "StarChallengeModuleProperties": {
+        "Challenges": {
+            "reference": "modules",
+            "is_list": true,
+            "is_nested_list": true,
+            "is_at_sign": true
+        }
+    },
+    "RailcartProperties": {
+        "RailcartType": {
+            "reference": "grid_types"
+        }
+    },
+    "WaveManagerProperties": {
+        "Waves": {
+            "reference": "modules",
+            "is_at_sign": true,
+            "is_list": true,
+            "is_nested_list": true
+        }
+    },
+    "StageModuleProperties": {
+        "BasicZombieTypeName": {
+            "reference": "zombie_types"
+        },
+        "Armor1ZombieTypeName": {
+            "reference": "zombie_types"
+        },
+        "FlagZombieTypeName": {
+            "reference": "zombie_types"
+        },
+        "Armor2ZombieTypeName": {
+            "reference": "zombie_types"
+        },
+        "Armor3ZombieTypeName": {
+            "reference": "zombie_types"
+        },
+        "Armor4ZombieTypeName": {
+            "reference": "zombie_types"
+        },
+        "FlagVeteranZombieTypeNames": {
+            "reference": "zombie_types",
+            "is_list": true
+        },
+        "GravestoneDefaultTypeName": {
+            "reference": "grid_types"
+        },
+        "RailcartDefaultTypeName": {
+            "reference": "grid_types"
+        },
+        "PlantsWhichCannotBePlantedOnPlanks": {
+            "reference": "plant_types",
+            "is_list": true
+        }
+    },
+    "ProtectThePlantChallengeProperties": {
+        "Plants": {
+            "reference": "plant_types",
+            "is_nested_list": true,
+            "is_list": true,
+            "param_to_check": "PlantType"
+        }
+    },
+    "ZombiePotionModuleProperties": {
+        "PotionTypes": {
+            "reference": "grid_types",
+            "is_list": true
+        }
+    },
+    "DestroyGridItemsChallengeProps": {
+        "GridItemType": {
+            "reference": "grid_types"
+        }
+    },
+    "CrazyOlafTestProperties": {
+        "PlantIncludelist": {
+            "reference": "plant_types",
+            "is_list": true
+        },
+        "PlantExcludelist": {
+            "reference": "plant_types",
+            "is_list": true
+        },
+        "PlantRequiredList": {
+            "reference": "plant_types",
+            "is_list": true
+        }
+    },
+    "GeneralZombieModuleProperties": {
+        "Phases": {
+            "reference": "zombie_types",
+            "is_list": true,
+            "param_to_check": "ZombieType"
+        }
+    },
+    "ConveyorSeedBankProperties": {
+        "InitialPlantList": {
+            "reference": "plant_aliases",
+            "is_at_sign": true,
+            "is_list": true,
+            "param_to_check": "PlantType"
+        }
+    },
+    "ZombossBattleModuleProperties": {
+        "ZombossMechType": {
+            "reference": "zombie_types"
+        }
+    },
+    "VaseBreakerPresetProperties": {
+        "VaseGridItemType": {
+            "reference": "grid_types"
+        },
+        "Vases": {
+            "reference": "zombie_types",
+            "is_list": true,
+            "param_to_check": "ZombieTypeName"
+        }
+    },
+    "InitialZombieProperties": {
+        "InitialZombiePlacements": {
+            "reference": "zombie_types",
+            "is_list": true,
+            "param_to_check": "TypeName"
+        }
+    },
+    "DefeatZombiesOfTypeChallengeProps": {
+        "TypesToKill": {
+            "reference": "zombie_types",
+            "is_list": true
+        }
+    },
+    "ZombieRainSpawnerProps": {
+        "SpiderZombieName": {
+            "reference": "zombie_types"
+        }
+    },
+    "StormZombieSpawnerProps": {
+        "Zombies": {
+            "reference": "zombie_types",
+            "is_at_sign": true,
+            "is_list": true,
+            "param_to_check": "Type"
+        }
+    },
+    "HamsterZombieSpawnerProps": {
+        "Zombies": {
+            "reference": "zombie_types",
+            "is_at_sign": true,
+            "is_list": true,
+            "param_to_check": "Type"
+        }
+    },
+    "BeachStageEventZombieSpawnerProps": {
+        "ZombieName": {
+            "reference": "zombie_types"
+        }
+    }
+}

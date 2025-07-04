@@ -10,7 +10,7 @@ init()
 # Remove illegal characters from a directory to prevent potential errors
 # - directory == given directory to clean out and return
 # Returns: directory with illegal characters removed
-def clean_directory(directory):
+def clean_directory(directory) -> str:
     platform = sys.platform
     if platform == "win32": illegal_chars = {"*", "?", "\"", "<", ">", "|"}
     elif platform == "linux": illegal_chars = {"/"}
@@ -22,7 +22,7 @@ def clean_directory(directory):
 # Remove ANSI code from given, primarily for if text needs to be written to a file
 # - text == text to be stripped of ANSI codes
 # Returns: text without ANSI codes
-def strip_ansi_codes(text):
+def strip_ansi_codes(text) -> str:
     ansi_escape = re.compile(r'\x1B\[[0-9;]*[mGK]')
     return ansi_escape.sub('', text)
 
@@ -31,7 +31,7 @@ def strip_ansi_codes(text):
 # - look_for_files == is a list type, checks to make sure folder directory has files and throws error if it doesn't
 # - accept_any == ignores is_file, causes function to not not check if directory is specifically a file or folder
 # Returns: directory given inputted by user
-def ask_for_directory(is_file=False, look_for_files=None, accept_any=False):
+def ask_for_directory(is_file:bool=False, look_for_files:tuple=None, accept_any:bool=False, is_case_sensitive:bool=False) -> str:
     while True:
         # Ask for directory
         directory = better_user_input(ask_directory=True)
@@ -53,9 +53,13 @@ def ask_for_directory(is_file=False, look_for_files=None, accept_any=False):
         # If look_for_files is given, check if all files in directory exist
         if look_for_files != None and os.path.isdir(directory):
             file_list = os.listdir(directory)
-            
+            if not is_case_sensitive:
+                for i in range(0, len(file_list)):
+                    file_list[i] = file_list[i].lower()
+                    
             should_repeat = False
             for file in look_for_files:
+                file = file.lower()
                 if file not in file_list:
                     print(f"{Fore.LIGHTMAGENTA_EX}ERROR: Could not find {file} in directory")
                     should_repeat = True

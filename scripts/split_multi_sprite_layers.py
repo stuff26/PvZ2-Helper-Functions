@@ -6,35 +6,35 @@ init()
 
 
 
-CHECKING_SYMBOL_TYPES = {"main_sprite.xml", "label/", "sprite/"}
+CHECKING_SYMBOL_TYPES = {"main_sprite.xml", "label/", "sprite/", "temp/"}
 
 
 def main():
 
     print(f"{Fore.LIGHTBLUE_EX}Enter the {Fore.GREEN}XFL {Fore.LIGHTBLUE_EX}or individual symbol you want to scan")
-    user_input_path = uf.ask_for_directory(accept_any=True, look_for_files=("DOMDocument.xml",))
+    user_input_path:str = uf.ask_for_directory(accept_any=True, look_for_files=("DOMDocument.xml",), is_case_sensitive=False)
     print(f"{Fore.LIGHTBLUE_EX}Processing...\n")
 
-    is_file = False
+    is_file:bool = False
     if os.path.isfile(user_input_path):
         is_file = True
-        symbol_list = [user_input_path]
+        symbol_list:list = [user_input_path]
     
     else:
-        symbol_list = get_symbol_list(os.path.join(user_input_path, "DOMDocument.xml"))
+        symbol_list:list = get_symbol_list(os.path.join(user_input_path, "DOMDocument.xml"))
 
     for symbol in symbol_list:
         if not is_file:
-            symbol_path = os.path.join(user_input_path, "LIBRARY", symbol)
+            symbol_path:str = os.path.join(user_input_path, "LIBRARY", symbol)
         else:
-            symbol_path = user_input_path
-        symbol_file = uf.open_xml_file(symbol_path)
-        layer_list = symbol_file["DOMSymbolItem"]["timeline"]["DOMTimeline"]["layers"]["DOMLayer"]
+            symbol_path:str = user_input_path
+        symbol_file:dict = uf.open_xml_file(symbol_path)
+        layer_list:list = symbol_file["DOMSymbolItem"]["timeline"]["DOMTimeline"]["layers"]["DOMLayer"]
 
         # If layer_list is a dictionary cause of only one layer, convert to layer to make it readable by separate_layer
-        layer_list = uf.fix_layer_or_frame_list(layer_list, to_layer=True)
+        layer_list:list = uf.fix_layer_or_frame_list(layer_list, to_layer=True)
 
-        new_layer_list = []
+        new_layer_list:list = list()
         for layer in layer_list:
             new_layers = separate_layer(layer)[::-1]
             new_layer_list.extend(new_layers)
@@ -57,7 +57,7 @@ def main():
         symbol_file["DOMSymbolItem"]["timeline"]["DOMTimeline"]["layers"]["DOMLayer"] = new_layer_list
         uf.write_to_file(symbol_file, symbol_path, is_xml=True)
 
-def get_symbol_list(DOMDocument_dir):
+def get_symbol_list(DOMDocument_dir:str) -> list[str]:
     # Get DOMDocument
     DOMDocument = uf.open_xml_file(DOMDocument_dir)["DOMDocument"]
     
@@ -147,7 +147,7 @@ def separate_layer(layer):
     return layer_list
 
 
-def check_if_only_empty(layer):
+def check_if_only_empty(layer:dict) -> bool:
     frame_list = layer["frames"]["DOMFrame"]
     frame_list = uf.fix_layer_or_frame_list(frame_list, to_layer=True)
 
@@ -160,3 +160,4 @@ def check_if_only_empty(layer):
 
 if __name__ == "__main__":
     main()
+    input("Complete")

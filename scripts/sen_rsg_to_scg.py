@@ -11,6 +11,7 @@ default_texture_format = 147
 
 def main():
     resourcegroup_type = ask_for_resourcegroup_type()
+    print()
     resource_group, resources_1536, resources_other, texture_format, spritesheet_dirs, other_rsgfolder_dir = intro_user_prompt(resourcegroup_type)
     new_package_folder = os.path.join(uf.back_a_directory(other_rsgfolder_dir), f"{resource_group}.package")
     
@@ -77,11 +78,11 @@ def main():
         
         
         
-def ask_for_resourcegroup_type():
+def ask_for_resourcegroup_type() -> str:
     print(f"{Fore.LIGHTBLUE_EX}What type of resource group do you want to convert")
     print(f"{Fore.LIGHTMAGENTA_EX}[1] {Fore.LIGHTGREEN_EX}Image and Animation")
     print(f"{Fore.LIGHTMAGENTA_EX}[2] {Fore.LIGHTGREEN_EX}Image only")
-    print(f"{Fore.LIGHTMAGENTA_EX}[3] {Fore.LIGHTGREEN_EX}Audio")
+    print(f"{Fore.LIGHTMAGENTA_EX}[3] {Fore.LIGHTGREEN_EX}Audio{Fore.YELLOW}")
     while True:
         answer = readchar()
         if answer == "1":
@@ -94,10 +95,10 @@ def ask_for_resourcegroup_type():
             print(answer)
             return "other"
 
-def intro_user_prompt(resourcegroup_type):
+def intro_user_prompt(resourcegroup_type:str) -> list:
     # Ask for resource group name
     print(f"{Fore.LIGHTBLUE_EX}What is the name of the resource group you want to convert? (ex {Fore.GREEN}AlwaysLoaded{Fore.LIGHTBLUE_EX})")
-    resource_group = input(f"{Fore.RED}>>> {Fore.YELLOW}")
+    resource_group = uf.better_user_input()
     
     # Get 1536 details
     if resourcegroup_type != "other":
@@ -122,7 +123,7 @@ def intro_user_prompt(resourcegroup_type):
         print(f"{Fore.LIGHTBLUE_EX}Enter the texture format number of {Fore.GREEN}{resource_group} {Fore.LIGHTBLUE_EX}(or enter nothing to use {default_texture_format})")
         while True:
             try:
-                texture_format = input(f"{Fore.RED}>>> {Fore.YELLOW}")
+                texture_format = uf.better_user_input()
                 if texture_format == "":
                     texture_format = default_texture_format
                 else:
@@ -136,17 +137,17 @@ def intro_user_prompt(resourcegroup_type):
     
     # Get 1536 spritesheet
     if not resourcegroup_type == "other":
-        spritesheet_dirs = []
+        spritesheet_dirs = list()
         for spritesheet_name in resources_1536:
             print(f"{Fore.LIGHTBLUE_EX}Input the directory for {Fore.GREEN}{spritesheet_name}")
             while True:
-                directory_temp = uf.clean_directory(input(f"{Fore.RED}>>> {Fore.YELLOW}"))
+                directory_temp = uf.better_user_input(ask_directory=True)
                 try:
                     # If file does not exist, raise error
                     if not os.path.exists(directory_temp):
                         raise FileNotFoundError
                     # If file is not an image file, raise error
-                    elif not if_is_image_file(directory_temp):
+                    elif not uf.if_is_image_file(directory_temp):
                         raise SyntaxError
                     # Otherwise, continue
                     spritesheet_dirs.append(directory_temp)
@@ -356,15 +357,5 @@ def make_datajson(texture_format, resource_group, pam_list, resource_details, re
 
 
 if __name__ == "__main__":
-    should_give_safe_error = False
-    if not should_give_safe_error:
-        main()
-        input()
-        
-    else:
-        try:
-            main()
-            input("Complete")
-        except Exception as e:
-            print(f"{Fore.LIGHTMAGENTA_EX}ERROR: {e}")
-            input()
+    main()
+    input("Complete")

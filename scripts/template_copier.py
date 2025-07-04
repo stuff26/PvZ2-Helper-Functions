@@ -1,7 +1,5 @@
-import json
 import copy
 from readchar import readchar
-import sys
 import os
 from colorama import init, Fore
 import universal_functions as uf
