@@ -1,4 +1,4 @@
-NOTE: This is an OLD version of Helper Functions, this is archived and will no longer be maintained. Please view the 2.0 release of Helper Functions for the current version.
+NOTE: This is an OLD version of Helper Functions, this is archived and will no longer be maintained. Please view the [2.0 release of Helper Functions](https://github.com/stuff26/PvZ2-Helper-Functions-2.0) for the current version.
 
 # PvZ2-Helper-Functions
 Convenient functions meant for modding Plants vs Zombies 2. These functions are made by stuff26 and are mainly made for usage with Sen 4.0. All of this is coded in python. Below will explain each current function.
